@@ -1,18 +1,28 @@
 fun main() {
     val singNum = intArrayOf(11,9,9,55,55)
-    println(singleNumber(singNum))
+    println(singleNumber(singNum))          //1
 
     val x = 50
-    println(minSplit(x))
+    println(minSplit(x))                    //2
 
     val notInclude = intArrayOf(1,5,9,10)
-    println(notContains(notInclude))
+    println(notContains(notInclude))        //3
 
     val addBin = addBinary("1100","0011")
-    println(addBin)
+    println(addBin)                         //4
 
     val count = countVariants(50)
-    println(countVariants(count))
+    println(countVariants(count))           //5
+
+    val data =  DeletionInConstantTime<Int>()
+    data.add(1)
+    data.add(2)
+    println("items:")
+    data.printItems()
+
+    data.delete(2)
+    println("after deletion:")
+    data.printItems()                       //6
 }
 //1
 
@@ -92,6 +102,34 @@ fun countVariants(stepsCount: Int): Int {
     return oneStep
 }
 //6
+
+class DeletionInConstantTime<A> {
+
+    private val items = mutableListOf<A>()
+    private val itemPositions = mutableMapOf<A, Int>()
+
+    fun add(item: A) {
+        items.add(item)
+        itemPositions[item] = items.lastIndex
+    }
+
+    fun delete(item: A) {
+        val position = itemPositions[item] ?: return
+        val lastPosition = items.lastIndex
+        val lastItem = items[lastPosition]
+
+        items[position] = lastItem
+        itemPositions[lastItem] = position
+
+        items.removeAt(lastPosition)
+        itemPositions.remove(item)
+    }
+
+    fun printItems() {
+        println(items)
+    }
+}
+
 
 
 
